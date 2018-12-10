@@ -308,5 +308,18 @@ $(document).ready(function () {
         }
     };
     check();
+
+    // Если адресная строка имеет параметр callback cо значением, показать alert.
+    function checkParam() {
+        // метод match возвращает массив, где первый элемент строка для которой вызван метод,
+        // а последующие элементы - вовпадающие группы
+        param = window.location.search.match(/\?callback=([a-zA-Z0-9]*)/);
+
+        if (param) {
+            alert("Есть параметр callback, со значением: "  + param[1]);
+        }
+    };
+    checkParam();
+
     // document ready конец
 });
