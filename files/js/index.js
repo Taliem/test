@@ -27,6 +27,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 //    tag_head[0].appendChild(tag_css);
 //
 //} ;
+
+
+
 function webkit_moved() {
 var ua = navigator.userAgent.toLowerCase(); 
   if (ua.indexOf('safari') != -1) { 
@@ -323,20 +326,57 @@ $(document).ready(function () {
 
     // Получаем местонахождение
     function geolocation() {
-        
-        var location = ymaps.geolocation.get();
+        ymaps.ready(getCity);
 
-        // Асинхронная обработка ответа.
-        location.then(
-            function(result) {
-                console.log(result)
-            },
-            function(err) {
-                console.log('Ошибка: ' + err)
-            }
-        );
-    }
+        function getCity() {
+            
+            ymaps.geolocation.get({
+                // ищем по геолокацию ip
+                provider: 'yandex',
+            })
+            .then(function (result) {
+                var result = result.geoObjects.get(0).properties;
+                // получаем страну
+                var country = result.get("description");
+                
+                if (country !== "Россия") {
+                    return;
+                };
+                return declension(result.get("name"))
+            })
+        };
 
+        function declension(city) {
+            url = "https://ws3.morpher.ru/russian/declension?s=" + city + "&format=json";
+            
+            function makeRequest(url, callback) {
+
+                var xhr = new XMLHttpRequest();
+                
+                xhr.open('GET', url, true);
+                xhr.send();
+                
+                xhr.onreadystatechange = function() {
+                
+                    if (this.readyState != 4) return;
+                
+                    if (this.status == 200) {
+                        var formatedCity = JSON.parse(this.responseText)["П"];
+                        callback(formatedCity)
+                    }
+                    return;
+                }
+            };
+
+            function changeRegion(city) {
+                target = document.querySelector("#geolocation");
+                target.innerHTML = city;
+            };
+
+            makeRequest(url, changeRegion)
+        };
+    };
+    geolocation();
     // Время промо-акции
     function promoDate() {
         
@@ -382,5 +422,12 @@ $(document).ready(function () {
     // запускаем функ. reduceProduct() с интервалом в 15 сек
     var reduceInterval = setInterval(reduceProduct, 15000);
 
+    // маска для телефона
+    $(".input-form[name=phone]").each(
+        function() {
+            $(this).mask('+7 (999) 999-99-99');
+        }
+    )
+    
     // document ready конец
 });
