@@ -428,7 +428,7 @@ $(document).ready(function () {
     };
 
     // запускаем функ. reduceProduct() с интервалом в 15 сек
-    var reduceInterval = setInterval(reduceProduct, 1500);
+    var reduceInterval = setInterval(reduceProduct, 15000);
 
     // маска для телефона
     $(".input-form[name=phone]").each(
