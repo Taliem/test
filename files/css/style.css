@@ -486,6 +486,7 @@ select{
     margin-left: -50px;
     background-image: url("../img/icon-reasons.png");
     background-repeat: no-repeat;
+    display: block;
 }
 .reasons-block--1.reasons-block:before{
     background-position: -20px -20px;
@@ -1898,15 +1899,16 @@ select{
     }
 
     .reasons-block:before {
-        background: url("http://demo.localtime-idea.com/demo_landings/dianot/dianot_ld6/img/reasons-img-480.png") no-repeat;
+        /* background: url("http://demo.localtime-idea.com/demo_landings/dianot/dianot_ld6/img/reasons-img-480.png") no-repeat; */
         /*width: 130px;*/
         /*height: 129px;*/
-        width: 125px;
+        /* width: 125px;
         height: 125px;
         left: 47%;
         -webkit-background-size: cover !important;
-        background-size: cover !important;
+        background-size: cover !important; */
         /*margin-left: -65px;*/
+        transform: scale(1.35)
     }
     .reasons-block--2.reasons-block:before {
         /*background-position: -130px 0;*/
@@ -2417,7 +2419,7 @@ content: " ";
         line-height: 24px;
     }
     .reasons-block:before {
-        background: url("http://demo.localtime-idea.com/demo_landings/dianot/dianot_ld6/img/reasons-img.png") no-repeat;
+        /* background: url("http://demo.localtime-idea.com/demo_landings/dianot/dianot_ld6/img/reasons-img.png") no-repeat; */
         /*width: 100px;*/
         /*height: 93px;*/
         margin-left: -50px;

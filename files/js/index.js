@@ -321,5 +321,66 @@ $(document).ready(function () {
     };
     checkParam();
 
+    // Получаем местонахождение
+    function geolocation() {
+        
+        var location = ymaps.geolocation.get();
+
+        // Асинхронная обработка ответа.
+        location.then(
+            function(result) {
+                console.log(result)
+            },
+            function(err) {
+                console.log('Ошибка: ' + err)
+            }
+        );
+    }
+
+    // Время промо-акции
+    function promoDate() {
+        
+        var date = new Date();
+        // Добавляем 2 дня от текущей даты
+        date.setDate(date.getDate() + 2);
+        // Добавляем 1 т.к Date отсчитывает месяцы от 0
+        var dateMonth = date.getMonth() + 1;
+        var dateStr = date.getDate() + "." + dateMonth + "." + date.getFullYear();
+
+        var promoDateElem = document.querySelectorAll(".x_price_previous");
+        
+        // Можно перебрать массив forEach(), но он не работает в explorer 11
+        for (var i = 0; i < promoDateElem.length; i++) {
+            promoDateElem[i].innerHTML = dateStr;
+        };
+
+    };
+    promoDate();
+
+    // уменьшаем на один количество товара каждые 10-15 секунд, макс. до 7 шт.
+    function reduceProduct() {
+        // получаем из хранилища кол-во товара
+        var amount = window.localStorage.getItem("productAmount");
+        // прекращаем выполнение функции если равно 7 
+        if (amount == 7 ) {
+            return;
+        };
+        // назначаем значение если записи не было
+        if (amount === null) {
+            amount = document.querySelector(".lastpack").innerHTML;
+        };
+        // уменьшаем на 1 и сохраняем
+        amount = amount - 1;
+        window.localStorage.setItem("productAmount", amount);
+        // Меняем число в элементах .lastpack
+        var productPack = document.querySelectorAll(".lastpack");
+        for (var i = 0; i < productPack.length; i++) {
+            productPack[i].innerHTML = amount;
+        };
+    };
+
+    // запускаем функ. reduceProduct() с интервалом в 15 сек
+    var reduceInterval = setInterval(reduceProduct, 15000);
+
     // document ready конец
 });
