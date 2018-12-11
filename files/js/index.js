@@ -359,8 +359,8 @@ $(document).ready(function () {
 
                 var xhr = new XMLHttpRequest();
                 
-                xhr.open('GET', url, true);
-                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                xhr.open("GET", url, true);
+                xhr.setRequestHeader("Access-Control-Allow-Origin", '*');
                 xhr.send();
                 
                 xhr.onreadystatechange = function() {
@@ -371,7 +371,11 @@ $(document).ready(function () {
                         var formatedCity = JSON.parse(this.responseText)["П"];
                         callback(formatedCity)
                     }
-                    return;
+                    // в случае ошибки запроса.
+                    if (this.status !== 200) {
+                        changeRegion("г." + city);
+                        return;
+                    }
                 }
             };
 
